@@ -12,13 +12,13 @@ public:
 	string(const char* str) {
 		size = strlen(str);
 		capacity = 16;
-		while (capacity < size) {
+		while (capacity <= size) {
 			capacity *= 2;
 		}
 		data = new char[capacity];
 		strncpy(data, str, size);
 		data[size] = '\0';
-
+		
 	}
 
 	string(const string& rhs) {
@@ -26,10 +26,14 @@ public:
 		size = rhs.size;
 		capacity = rhs.capacity;
 		data = new char[capacity];
-		for (size_t i = 0; i < size; ++i) {
-			data[i] = rhs.data[i];
+		if (size < capacity) { // to fix warning
+			for (size_t i = 0; i < size; ++i) {
+				data[i] = rhs.data[i];
+			}
 		}
-		data[size] = '\0';
+		if (size < capacity) {
+			data[size] = '\0'; // to fix warning
+		}
 	}
 
 	~string() {
@@ -117,7 +121,7 @@ public:
 			throw ("Invalid number");
 		}
 		string first_str(*this); // Костыль?
-		for (size_t i = 0; i < number - 1; ++i) {
+		for (size_t i = 1; i < number; ++i) { // i = 1 to fix warning
 			*this += first_str;
 		}
 
