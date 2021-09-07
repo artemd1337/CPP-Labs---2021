@@ -4,6 +4,6 @@
 cmake_minimum_required (VERSION 3.8)
 
 # Добавьте источник в исполняемый файл этого проекта.
-add_executable (CMakeTarget "CPP Labs - 2021.cpp" "CPP Labs - 2021.h")
+add_executable (CMakeTarget "CPP Lab 1 - 2021.cpp" "CPP Lab 1 - 2021.h")
 
 # TODO: Добавьте тесты и целевые объекты, если это необходимо.

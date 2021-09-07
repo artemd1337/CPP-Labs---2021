@@ -1,4 +1,4 @@
-﻿#include "CPP Labs - 2021.h"
+﻿#include "CPP Lab 1 - 2021.h"
 
 class string {
 private:
@@ -22,6 +22,7 @@ public:
 	}
 
 	string(const string& rhs) {
+		//printf("operator of copy \n");
 		size = rhs.size;
 		capacity = rhs.capacity;
 		data = new char[capacity];
@@ -59,6 +60,7 @@ public:
 	}
 
 	string& operator+= (const string& rhs) {
+		//printf("operator += for string + string \n");
 		while (size + rhs.size >= capacity) {
 			capacity *= 2;
 		}
@@ -76,19 +78,72 @@ public:
 		return *this;
 	}
 
+	string& operator+= (const char* rhs) {
+		//printf("operator += for string + char* \n");
+		size_t rhs_size = strlen(rhs);
+		while (size + rhs_size >= capacity) {
+			capacity *= 2;
+		}
+		char* new_data = new char[capacity];
+		for (size_t i = 0; i < size; ++i) {
+			new_data[i] = data[i];
+		}
+		for (size_t i = 0; i < rhs_size; ++i) {
+			new_data[size + i] = rhs[i];
+		}
+		new_data[size + rhs_size] = '\0';
+		size = size + rhs_size;
+		delete data;
+		data = new_data;
+		return *this;
+	}
+
 	string operator+ (const string& rhs) const {
+		//printf("operator + for string + string \n");
 		string result(*this);
 		result += rhs;
 		return result;
 	}
+
+	string operator+ (const char* rhs) const {
+		//printf("operator + for string + char* \n");
+		string result(*this);
+		result += rhs;
+		return result;
+	}
+
+	string& operator* (const int number) {
+		if (number <= 0) {
+			throw ("Invalid number");
+		}
+		string first_str(*this); // Костыль?
+		for (size_t i = 0; i < number - 1; ++i) {
+			*this += first_str;
+		}
+
+		return *this;
+	}
+
+	string SubStr(const size_t index, const size_t size) {
+
+	}
 };
 
+string operator+ (const char* lhs, const string& rhs) {
+	return string(lhs) + rhs;
+}
+
+// TODO operator + for char* and string; 
+// operator += for char* and string;
+// operator * for int and string;
 
 int main() {
 	string a("artem ");
 	a.Print();
 	string b("danilov");
 	b.Print();
-	string c = a + b;
+	string c = b + "a";
 	c.Print();
+	string d = a * 3;
+	d.Print();
 }
