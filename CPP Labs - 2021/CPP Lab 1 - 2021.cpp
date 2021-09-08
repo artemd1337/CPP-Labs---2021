@@ -62,6 +62,18 @@ public:
 			return data[index];
 		}
 	}
+	
+	const char* GetData() const{
+		return data;
+	}
+
+	const size_t GetSize() const{
+		return size;
+	}
+
+	const size_t GetCapacity() const {
+		return capacity;
+	}
 
 	string& operator+= (const string& rhs) {
 		//printf("operator += for string + string \n");
@@ -120,7 +132,7 @@ public:
 		if (number <= 0) {
 			throw ("Invalid number");
 		}
-		string first_str(*this); // Костыль?
+		string first_str(*this); // bad?
 		for (size_t i = 1; i < number; ++i) { // i = 1 to fix warning
 			*this += first_str;
 		}
@@ -128,26 +140,59 @@ public:
 		return *this;
 	}
 
-	string SubStr(const size_t index, const size_t size) {
-
+	string SubStr(const size_t index, const size_t len) const {
+		if (index >= size || index + len >= size) {
+			throw("Invalid index or len");
+		}
+		// ?
 	}
+
+	bool operator== (const string& rhs) const{
+		if (size == rhs.size) {
+			for (size_t i = 0; i < size; ++i) {
+				if (data[i] != rhs.data[i]) {
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+
+	bool operator!= (const string& rhs) {
+		return !(*this == rhs);
+	}
+
+	friend std::ostream& operator<< (std::ostream& out, const string& string);
 };
 
 string operator+ (const char* lhs, const string& rhs) {
 	return string(lhs) + rhs;
 }
 
-// TODO operator + for char* and string; 
-// operator += for char* and string;
-// operator * for int and string;
+string operator+= (const char* lhs, const string& rhs) {
+	return string(lhs) += rhs;
+}
+
+string& operator* (const int number, string& rhs) {
+	if (number < 0) throw "Invalid number";
+	return rhs * number;
+}
+
+std::ostream& operator<< (std::ostream& out, const string& str)
+{
+	out << str.GetData();
+	return out;
+}
+
 
 int main() {
 	string a("artem ");
 	a.Print();
 	string b("danilov");
 	b.Print();
-	string c = b + "a";
+	string c = a + b;
 	c.Print();
-	string d = a * 3;
+	string d = 3 * a;
 	d.Print();
 }
