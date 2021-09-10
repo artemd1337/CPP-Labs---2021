@@ -22,7 +22,6 @@ public:
 	}
 
 	string(const string& rhs) {
-		//printf("operator of copy \n");
 		size = rhs.size;
 		capacity = rhs.capacity;
 		data = new char[capacity];
@@ -37,8 +36,7 @@ public:
 	}
 
 	~string() {
-		std::cout << "DESTRUCTOR FOR " << data << "\n";
-		delete data;
+		delete[] data;
 	}
 
 	void Print() const {
@@ -76,7 +74,6 @@ public:
 	}
 
 	string& operator+= (const string& rhs) {
-		//printf("operator += for string + string \n");
 		while (size + rhs.size >= capacity) {
 			capacity *= 2;
 		}
@@ -95,7 +92,6 @@ public:
 	}
 
 	string& operator+= (const char* rhs) {
-		//printf("operator += for string + char* \n");
 		size_t rhs_size = strlen(rhs);
 		while (size + rhs_size >= capacity) {
 			capacity *= 2;
@@ -115,14 +111,12 @@ public:
 	}
 
 	string operator+ (const string& rhs) const {
-		//printf("operator + for string + string \n");
 		string result(*this);
 		result += rhs;
 		return result;
 	}
 
 	string operator+ (const char* rhs) const {
-		//printf("operator + for string + char* \n");
 		string result(*this);
 		result += rhs;
 		return result;
@@ -144,7 +138,14 @@ public:
 		if (index >= size || index + len >= size) {
 			throw("Invalid index or len");
 		}
-		// ?
+		char* tmp_str = new char[len + 1];
+		for (size_t i = 0; i < len; ++i) {
+			tmp_str[i] = data[index + i];
+		}
+		tmp_str[len] = '\0';
+		string substr(tmp_str);
+		delete[] tmp_str;
+		return substr;
 	}
 
 	bool operator== (const string& rhs) const{
@@ -185,14 +186,12 @@ std::ostream& operator<< (std::ostream& out, const string& str)
 	return out;
 }
 
+// TODO excaptions
 
 int main() {
 	string a("artem ");
-	a.Print();
 	string b("danilov");
-	b.Print();
-	string c = a + b;
-	c.Print();
-	string d = 3 * a;
-	d.Print();
+	string c = a.SubStr(2,3);
+	string d = 3 * a + b;
+	std::cout << d << c << std::endl;
 }
