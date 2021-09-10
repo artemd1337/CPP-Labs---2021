@@ -186,7 +186,7 @@ std::ostream& operator<< (std::ostream& out, const string& str)
 	return out;
 }
 
-// TODO excaptions
+// TODO exceptions
 
 int main() {
 	string a("artem ");
