@@ -36,7 +36,9 @@ public:
 	}
 
 	~string() {
-		delete[] data;
+		if (data != nullptr) {
+			delete[] data;
+		}
 	}
 
 	void Print() const {
@@ -74,6 +76,9 @@ public:
 	}
 
 	string& operator+= (const string& rhs) {
+		if (rhs.data == nullptr) {
+			return *this;
+		}
 		while (size + rhs.size >= capacity) {
 			capacity *= 2;
 		}
@@ -92,6 +97,8 @@ public:
 	}
 
 	string& operator+= (const char* rhs) {
+		if (strlen(rhs) == 0) 
+			return *this;
 		size_t rhs_size = strlen(rhs);
 		while (size + rhs_size >= capacity) {
 			capacity *= 2;
@@ -123,6 +130,9 @@ public:
 	}
 
 	string& operator* (const int number) {
+		if (data == nullptr) {
+			return *this;
+		}
 		if (number <= 0) {
 			throw ("Invalid number");
 		}
@@ -149,15 +159,7 @@ public:
 	}
 
 	bool operator== (const string& rhs) const{
-		if (size == rhs.size) {
-			for (size_t i = 0; i < size; ++i) {
-				if (data[i] != rhs.data[i]) {
-					return false;
-				}
-			}
-			return true;
-		}
-		return false;
+		return (0 == strcmp(data , rhs.data));
 	}
 
 	bool operator!= (const string& rhs) {
@@ -185,8 +187,6 @@ std::ostream& operator<< (std::ostream& out, const string& str)
 	out << str.GetData();
 	return out;
 }
-
-// TODO excaptions
 
 int main() {
 	string a("artem ");
