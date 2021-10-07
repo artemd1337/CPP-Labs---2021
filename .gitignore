@@ -1,4 +1,6 @@
 .vs/
 out/
+googletest-master/
 
 CMakeSettings.json
+googletest-master.zip

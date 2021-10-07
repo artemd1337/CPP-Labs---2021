@@ -2,8 +2,8 @@
 // или включаемые файлы для конкретного проекта.
 
 #pragma once
-#include <cstdio>
-#include <cstring>
+#include <stdio.h>
+#include <string.h>
 #include <iostream>
 
 // TODO: установите здесь ссылки на дополнительные заголовки, требующиеся для программы.
