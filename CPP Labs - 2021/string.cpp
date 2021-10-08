@@ -45,7 +45,7 @@ string::~string() {
 	}
 }
 
-const char string::operator[](const size_t index) const {
+char string::operator[](const size_t index) const {
 	if (index >= size) {
 		throw ("Invalid index");
 	}
@@ -144,7 +144,7 @@ string& string::operator*= (const int number) {
 		throw ("Invalid number");
 	}
 	string first_str(*this);
-	for (size_t i = 1; i < number; ++i) { // i = 1 to fix warning
+	for (size_t i = 1; i < (size_t)number; ++i) { // i = 1 to fix warning
 		*this += first_str;
 	}
 	return *this;

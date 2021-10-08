@@ -15,7 +15,7 @@ public:
 	string(const string& rhs);
 	~string();
 
-	const char operator[](const size_t index) const;
+	char operator[](const size_t index) const;
 	char& operator[](const size_t index);
 	char* GetData() const; 
 
