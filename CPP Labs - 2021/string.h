@@ -1,3 +1,4 @@
+#pragma once
 #include <cstdio>
 #include <cstring>
 #include <iostream>
@@ -28,7 +29,9 @@ public:
 	string operator+ (const string& rhs) const;
 	string operator+ (const char* rhs) const;
 
-	string& operator* (const int number);
+	string& operator*= (const int number);
+	string operator* (const int num) const;
+
 	string SubStr(const size_t index, const size_t len) const;
 	bool operator== (const string& rhs) const;
 	bool operator!= (const string& rhs);
@@ -38,4 +41,4 @@ public:
 
 string operator+ (const char* lhs, const string& rhs);
 string operator+= (const char* lhs, const string& rhs);
-string& operator* (const int number, string& rhs);
+string operator* (const int num, const string& rhs);

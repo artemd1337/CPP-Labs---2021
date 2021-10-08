@@ -8,6 +8,9 @@ int main() {
 	a += b;
 	std::cout << a << std::endl;
 	string c = a.SubStr(2,3);
-	string d = 3 * a + b;
+	
+	string d = a * 3 + b;
+	string f = 3 * a;
+	std::cout << f << std::endl;
 	std::cout << d << c << std::endl;
 }

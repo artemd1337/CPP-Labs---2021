@@ -136,7 +136,7 @@ string string::operator+ (const char* rhs) const {
 	return result;
 }
 
-string& string::operator* (const int number) {
+string& string::operator*= (const int number) {
 	if (data == nullptr) {
 		return *this;
 	}
@@ -148,6 +148,12 @@ string& string::operator* (const int number) {
 		*this += first_str;
 	}
 	return *this;
+}
+
+string string::operator* (const int num) const {
+	string result(*this);
+	result *= num;
+	return result;
 }
 
 string string::SubStr(const size_t index, const size_t len) const {
@@ -183,7 +189,7 @@ string operator+= (const char* lhs, const string& rhs) {
 	return string(lhs) += rhs;
 }
 
-string& operator* (const int number, string& rhs) {
-	if (number < 0) throw "Invalid number";
-	return rhs * number;
+
+string operator* (const int num, const string& rhs) {
+	return rhs * num;
 }
