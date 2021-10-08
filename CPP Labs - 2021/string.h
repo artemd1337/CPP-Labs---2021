@@ -8,9 +8,9 @@ private:
 	size_t size;
 	size_t capacity;
 public:
-
 	string();
 	string(const char* str);
+	string(const size_t size);
 	string(const string& rhs);
 	~string();
 
@@ -22,8 +22,9 @@ public:
 	size_t GetCapacity() const;
 
 	string& operator+= (const string& rhs);
-
 	string& operator+= (const char* rhs);
+	string& operator+= (const char rhs);
+
 	string operator+ (const string& rhs) const;
 	string operator+ (const char* rhs) const;
 
@@ -31,9 +32,8 @@ public:
 	string SubStr(const size_t index, const size_t len) const;
 	bool operator== (const string& rhs) const;
 	bool operator!= (const string& rhs);
+
 	friend std::ostream& operator<< (std::ostream& out, const string& string);
-
-
 };
 
 string operator+ (const char* lhs, const string& rhs);

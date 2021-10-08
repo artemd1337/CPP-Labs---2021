@@ -8,23 +8,34 @@ string::string(const char* str) {
 	while (capacity <= size) {
 		capacity *= 2;
 	}
-	data = new char[capacity];
-	strncpy(data, str, size);
-	data[size] = '\0';
+	data = new char[capacity] {'\0'};
+	for (size_t i = 0; i < size; ++i) {
+		data[i] = str[i];
+	}
+}
 
+string::string(const size_t new_size) {
+	data = new char[new_size] {'\0'};
+	if (data == nullptr) {
+		throw "Bad alloc";
+	}
+	capacity = new_size;
+	size = 0;
 }
 
 string::string(const string& rhs) {
-	size = rhs.size;
-	capacity = rhs.capacity;
-	data = new char[capacity];
+	size_t newsize = rhs.size;
+	size_t newcapacity = rhs.capacity;
+	data = new char[newcapacity] {'\0'};
+	if (data == nullptr) {
+		throw "Bad alloc";
+	}
+	size = newsize;
+	capacity = newcapacity;
 	if (size < capacity) { // to fix warning
 		for (size_t i = 0; i < size; ++i) {
 			data[i] = rhs.data[i];
 		}
-	}
-	if (size < capacity) {
-		data[size] = '\0'; // to fix warning
 	}
 }
 
@@ -64,45 +75,52 @@ size_t string::GetCapacity() const {
 	return capacity;
 }
 
+string& string::operator+= (const char rhs) {
+	if (size + 1 >= capacity) {
+		size_t new_capacity = capacity;
+		while (size + 1 >= new_capacity) {
+			new_capacity *= 2;
+		}
+		char* new_data = new char[new_capacity] {'\0'};
+		if (new_data == nullptr) {
+			throw "Bad alloc";
+		}
+		else {
+			capacity = new_capacity;
+		}
+		for (size_t i = 0; i < size; ++i) {
+			new_data[i] = data[i];
+		}
+		new_data[size] = rhs;
+		size++;
+		delete[] data;
+		data = new_data;
+		return *this;
+	}
+	else {
+		data[size] = rhs;
+		size++;
+		return *this;
+	}
+}
+
 string& string::operator+= (const string& rhs) {
 	if (rhs.data == nullptr) {
 		return *this;
 	}
-	while (size + rhs.size >= capacity) {
-		capacity *= 2;
-	}
-	char* new_data = new char[capacity];
-	for (size_t i = 0; i < size; ++i) {
-		new_data[i] = data[i];
-	}
 	for (size_t i = 0; i < rhs.size; ++i) {
-		new_data[size + i] = rhs.data[i];
+		*this += rhs.data[i];
 	}
-	new_data[size + rhs.size] = '\0';
-	size = size + rhs.size;
-	delete data;
-	data = new_data;
 	return *this;
 }
 
-string& string::operator+= (const char* rhs) { //Дублирование кода Можно сделать +=char
+string& string::operator+= (const char* rhs) {
 	if (strlen(rhs) == 0)
 		return *this;
 	size_t rhs_size = strlen(rhs);
-	while (size + rhs_size >= capacity) {
-		capacity *= 2;
-	}
-	char* new_data = new char[capacity];
-	for (size_t i = 0; i < size; ++i) {
-		new_data[i] = data[i];
-	}
 	for (size_t i = 0; i < rhs_size; ++i) {
-		new_data[size + i] = rhs[i];
+		*this += rhs[i];
 	}
-	new_data[size + rhs_size] = '\0';
-	size = size + rhs_size;
-	delete data;
-	data = new_data;
 	return *this;
 }
 
@@ -125,11 +143,10 @@ string& string::operator* (const int number) {
 	if (number <= 0) {
 		throw ("Invalid number");
 	}
-	string first_str(*this); // bad?
+	string first_str(*this);
 	for (size_t i = 1; i < number; ++i) { // i = 1 to fix warning
 		*this += first_str;
 	}
-
 	return *this;
 }
 
@@ -137,13 +154,10 @@ string string::SubStr(const size_t index, const size_t len) const {
 	if (index >= size || index + len >= size) {
 		throw("Invalid index or len");
 	}
-	char* tmp_str = new char[len + 1];
+	string substr(16);
 	for (size_t i = 0; i < len; ++i) {
-		tmp_str[i] = data[index + i];
+		substr += data[index + i];
 	}
-	tmp_str[len] = '\0';
-	string substr(tmp_str);
-	delete[] tmp_str; //Плохо, сделать второй констуктор с параметрами
 	return substr;
 }
 

@@ -5,6 +5,8 @@
 int main() {
 	string a("artem ");
 	string b("danilov");
+	a += b;
+	std::cout << a << std::endl;
 	string c = a.SubStr(2,3);
 	string d = 3 * a + b;
 	std::cout << d << c << std::endl;
