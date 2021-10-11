@@ -32,7 +32,7 @@ public:
 	string operator* (const int num) const;
 
 	string SubStr(const size_t index, const size_t len) const;
-	string operator() (const size_t start, const size_t finish = size) const;
+	string operator() (const size_t start, const size_t finish = GetSize()) const;
 
 	bool operator== (const string& rhs) const;
 	bool operator!= (const string& rhs);

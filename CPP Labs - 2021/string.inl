@@ -212,7 +212,7 @@ std::ostream& operator<< (std::ostream& out, const string<T>& str){
 
 template <typename T>
 string<T> operator+= (const char* lhs, const string<T>& rhs) {
-	return string(lhs) += rhs;
+	return string<T>(lhs) += rhs;
 }
 
 template <typename T>

@@ -8,7 +8,7 @@ int main() {
 	a += b;
 	a[0] = 'A';
 	std::cout << a << std::endl;
-	string<char> c = a(2,4);
+	string<char> c = a(2);
 	
 	string<char> d = a * 3 + b;
 	string<char> f = 3 * a;
