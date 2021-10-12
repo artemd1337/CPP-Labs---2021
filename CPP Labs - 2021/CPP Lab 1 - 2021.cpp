@@ -9,7 +9,8 @@ int main() {
 	a[0] = 'A';
 	std::cout << a << std::endl;
 	string<char> c = a(2);
-	
+	string<char> g = a(2, 3);
+	std::cout << g << std::endl;
 	string<char> d = a * 3 + b;
 	string<char> f = 3 * a;
 	std::cout << f << std::endl;

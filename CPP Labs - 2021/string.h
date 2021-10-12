@@ -1,4 +1,3 @@
-#pragma once
 #include <cstdio>
 #include <cstring>
 #include <iostream>
@@ -32,7 +31,7 @@ public:
 	string operator* (const int num) const;
 
 	string SubStr(const size_t index, const size_t len) const;
-	string operator() (const size_t start, const size_t finish = GetSize()) const;
+	string operator() (const size_t start, const size_t finish = 0, const bool to_end = true) const; // 
 
 	bool operator== (const string& rhs) const;
 	bool operator!= (const string& rhs);

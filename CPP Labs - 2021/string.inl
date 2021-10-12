@@ -155,8 +155,8 @@ string<T> string<T>::operator* (const int num) const {
 }
 
 template <typename T>
-string<T> string<T>::SubStr(const size_t index, const size_t len) const {
-	if (index >= size || index + len >= size) {
+string<T> string<T>::SubStr(const size_t index, const size_t len) const { 
+	if (index >= size || index + len > size) {
 		throw("Invalid index or len");
 	}
 	string<T> substr(16);
@@ -167,21 +167,21 @@ string<T> string<T>::SubStr(const size_t index, const size_t len) const {
 }
 
 template <typename T>
-string<T> string<T>::operator() (const size_t start, const size_t stop) const {
+string<T> string<T>::operator() (const size_t start, const size_t stop, const bool to_end) const {
+	if (stop == 0 && to_end == true) {
+		return SubStr(start, (*this).size - start);
+	}
 	if (stop < start) {
 		throw "Invalid operands operator(). Stop must be >= start";
 	}
 	if (stop > size) {
 		throw "Invalid index, stop must be <= size";
 	}
-	if (start > size) {
+	if (start > size ) {
 		throw "Invalid index, stop must be <= size and >= 0";
 	}
-	else
-	{
-		size_t len = stop - start;
-		return SubStr(start, len + 1);
-	}
+	size_t len = stop - start + 1;
+	return SubStr(start, len);
 }
 
 template <typename T>
