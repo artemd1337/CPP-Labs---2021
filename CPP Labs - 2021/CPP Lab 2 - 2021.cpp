@@ -1,4 +1,4 @@
-﻿#include "CPP Lab 1 - 2021.h"
+﻿#include "CPP Lab 2 - 2021.h"
 #include "string.h"
 
 
