@@ -22,6 +22,8 @@ public:
 	size_t GetSize() const;
 	size_t GetCapacity() const;
 
+	string& operator= (const string& rhs);
+
 	string& operator+= (const string& rhs);
 	string& operator+= (const T rhs);
 

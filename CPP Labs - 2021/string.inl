@@ -85,6 +85,12 @@ size_t string<T>::GetCapacity() const {
 }
 
 template <typename T>
+string<T>& string<T>::operator= (const string<T>& rhs) {
+	string new_Str(rhs);
+	return new_Str;
+}
+
+template <typename T>
 string<T>& string<T>::operator+= (const T rhs) {
 	if (size + 1 >= capacity) {
 		size_t new_capacity = capacity;

@@ -13,6 +13,8 @@ int main() {
 	std::cout << g << std::endl;
 	string<char> d = a * 3 + b;
 	string<char> f = 3 * a;
+	string<char> i = a;
+	std::cout << i << std::endl;
 	std::cout << f << std::endl;
 	std::cout << d << c << std::endl;
 }
