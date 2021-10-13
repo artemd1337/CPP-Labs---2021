@@ -17,4 +17,8 @@ int main() {
 	std::cout << i << std::endl;
 	std::cout << f << std::endl;
 	std::cout << d << c << std::endl;
+	
+	int vector[10] = { 0,1,2,3,4,5,6,7,8,9 };
+	string<int> a_i(vector, 7);
+	std::cout << a_i << std::endl;
 }
