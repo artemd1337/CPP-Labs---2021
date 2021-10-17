@@ -5,6 +5,8 @@
 int main() {
 	string<char> a("artem ", 6);
 	string<char> b("danilov" , 7);
+	a = b;
+	std::cout << a << std::endl << b << std::endl;
 	a += b;
 	a[0] = 'A';
 	std::cout << a << std::endl;

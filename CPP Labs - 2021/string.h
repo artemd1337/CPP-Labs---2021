@@ -8,6 +8,7 @@ private:
 	T* data;
 	size_t size;
 	size_t capacity;
+
 public:
 	string();
 	string(const T* new_data, const size_t new_size);
@@ -17,7 +18,7 @@ public:
 
 	T operator[](const size_t index) const;
 	T& operator[](const size_t index);
-	T* GetData() const; 
+	const T* GetData() const; 
 
 	size_t GetSize() const;
 	size_t GetCapacity() const;
@@ -33,7 +34,7 @@ public:
 	string operator* (const int num) const;
 
 	string SubStr(const size_t index, const size_t len) const;
-	string operator() (const size_t start, const size_t finish = 0, const bool to_end = true) const; // 
+	string operator() (const size_t start, const size_t finish = std::string::npos) const; 
 
 	bool operator== (const string& rhs) const;
 	bool operator!= (const string& rhs);

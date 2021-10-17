@@ -1,3 +1,4 @@
+#include <cstdio>
 template <typename T>
 string<T>::string() : data(nullptr), size(0), capacity(0) {}
 
@@ -70,7 +71,7 @@ T& string<T>::operator[](const size_t index) {
 }
 
 template <typename T>
-T* string<T>::GetData() const {
+const T* string<T>::GetData() const {
 	return data;
 }
 
@@ -85,9 +86,12 @@ size_t string<T>::GetCapacity() const {
 }
 
 template <typename T>
-string<T>& string<T>::operator= (const string<T>& rhs) {
-	string new_Str(rhs);
-	return new_Str;
+string<T>& string<T>::operator=(const string<T>& rhs) {
+	string<T> tmp(rhs);
+	std::swap(this->data, tmp.data);
+	std::swap(this->size, tmp.size);
+	std::swap(this->capacity, tmp.capacity);
+	return *this;
 }
 
 template <typename T>
@@ -173,8 +177,8 @@ string<T> string<T>::SubStr(const size_t index, const size_t len) const {
 }
 
 template <typename T>
-string<T> string<T>::operator() (const size_t start, const size_t stop, const bool to_end) const {
-	if (stop == 0 && to_end == true) {
+string<T> string<T>::operator() (const size_t start, const size_t stop) const {
+	if (stop == std::string::npos) {
 		return SubStr(start, (*this).size - start);
 	}
 	if (stop < start) {
