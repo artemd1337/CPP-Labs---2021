@@ -17,6 +17,47 @@ TEST(Constructor, CopyConstructor) {
 	EXPECT_EQ(strcmp(test.GetData(), test1.GetData()), 0);
 }
 
+TEST(Operator, AssignmentOperatorChar) {
+	string<char>  test1("test123", 7);
+	string<char> test2(16);
+	test2 = test1;
+	EXPECT_EQ(test1.GetSize(), test2.GetSize());
+	EXPECT_TRUE(strcmp(test1.GetData(), test2.GetData()) == 0);
+	auto data = test1.GetData();
+	test1 = test1;
+	EXPECT_EQ(test1.GetData(), data);
+}
+
+TEST(Operator, AssignmentOperatorInt) {
+	int vector_int[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	string<int> test_int1(vector_int, 10);
+	string<int> test_int2(10);
+	test_int2 = test_int1;
+	EXPECT_EQ(test_int1.GetSize(), test_int2.GetSize());
+	for (size_t i = 0; i < 10; ++i) {
+		EXPECT_EQ(test_int1[i], test_int2[i]);
+	}
+	auto data = test_int1.GetData();
+	test_int1 = test_int1;
+	EXPECT_EQ(test_int1.GetData(), data);
+}
+
+
+TEST(Operator, AssignmentOperatorDouble) {
+	double vector_double[10] = { 11.28, 13.22, 21.17, 3.14, 4.41, 5.73, 6.90, 7.1, 8.1238812, 9.0 };
+	string<double> test_double(vector_double, 10);
+	string<double> test_double2(10);
+	test_double2 = test_double;
+	EXPECT_EQ(test_double.GetSize(), test_double2.GetSize());
+	for (size_t i = 0; i < 10; ++i) {
+		EXPECT_EQ(test_double[i], test_double2[i]);
+	}
+	auto data = test_double.GetData();
+	test_double = test_double;
+	EXPECT_EQ(test_double.GetData(), data);
+}
+
+
 TEST(Operator, Operator_index_const) {
 	const string<char> test_char("test", 4);
 	EXPECT_EQ(test_char[0], 't');
@@ -70,7 +111,7 @@ TEST(Operator, Operator_pluseq_char) {
 	EXPECT_EQ(test_double[10], 3.1415);
 }
 
-TEST(Operator, Operator_pleseq_sting_char) {
+TEST(Operator, Operator_pluseq_sting_char) {
 	string<char> test1("test", 4);
 	string<char> test2("ing", 3);
 	test1 += test2;
@@ -79,7 +120,7 @@ TEST(Operator, Operator_pleseq_sting_char) {
 	EXPECT_EQ(test1[6], 'g');
 }
 
-TEST(Operator, Operator_pleseq_sting_int) {
+TEST(Operator, Operator_pluseq_sting_int) {
 	int vector_int[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 	string<int> test1(vector_int, 4);
 	string<int> test2(vector_int, 3);
@@ -89,7 +130,7 @@ TEST(Operator, Operator_pleseq_sting_int) {
 	EXPECT_EQ(test1[6], 2);
 }
 
-TEST(Operator, Operator_pleseq_sting_double) {
+TEST(Operator, Operator_pluseq_sting_double) {
 	double vector_double[10] = { 11.28, 13.22, 21.17, 3.14, 4.41, 5.73, 6.90, 7.1, 8.1238812, 9.0 };
 	string<double> test1(vector_double, 4);
 	string<double> test2(vector_double, 6);

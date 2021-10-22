@@ -87,6 +87,8 @@ size_t string<T>::GetCapacity() const {
 
 template <typename T>
 string<T>& string<T>::operator=(const string<T>& rhs) {
+	if (this->data == rhs.data)
+		return *this;
 	string<T> tmp(rhs);
 	std::swap(this->data, tmp.data);
 	std::swap(this->size, tmp.size);
