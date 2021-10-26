@@ -38,10 +38,10 @@ string<T>::string(const string<T>& rhs) {
 		throw "Bad alloc";
 	}
 	capacity = new_capacity;
+	size = new_size;
 	if (size < capacity) {
-		for (size_t i = 0; i < new_size; ++i) {
+		for (size_t i = 0; i < size; ++i) {
 			data[i] = rhs.data[i];
-			size++;
 		}
 	}
 }
