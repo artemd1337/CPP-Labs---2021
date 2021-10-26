@@ -37,7 +37,7 @@ public:
 	string operator() (const size_t start, const size_t finish = std::string::npos) const; 
 
 	bool operator== (const string& rhs) const;
-	bool operator!= (const string& rhs);
+	bool operator!= (const string& rhs) const;
 };
 
 template <typename T>

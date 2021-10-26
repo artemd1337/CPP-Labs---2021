@@ -10,6 +10,9 @@ string<T>::string(const T* new_data,const size_t new_size) {
 		capacity *= 2;
 	}
 	data = new T[capacity];
+	if (data == nullptr) {
+		throw "Bad alloc";
+	}
 	for (size_t i = 0; i < new_size; ++i) {
 		data[i] = new_data[i];
 	}
@@ -28,17 +31,17 @@ string<T>::string(const size_t new_size) {
 
 template <typename T>
 string<T>::string(const string<T>& rhs) {
-	size_t newsize = rhs.size;
-	size_t newcapacity = rhs.capacity;
-	data = new T[newcapacity];
+	size_t new_size = rhs.size;
+	size_t new_capacity = rhs.capacity;
+	data = new T[new_capacity];
 	if (data == nullptr) {
 		throw "Bad alloc";
 	}
-	size = newsize;
-	capacity = newcapacity;
+	capacity = new_capacity;
 	if (size < capacity) {
-		for (size_t i = 0; i < size; ++i) {
+		for (size_t i = 0; i < new_size; ++i) {
 			data[i] = rhs.data[i];
+			size++;
 		}
 	}
 }
@@ -87,8 +90,7 @@ size_t string<T>::GetCapacity() const {
 
 template <typename T>
 string<T>& string<T>::operator=(const string<T>& rhs) {
-	if (this->data == rhs.data)
-		return *this;
+	if (this->data == rhs.data) return *this;
 	string<T> tmp(rhs);
 	std::swap(this->data, tmp.data);
 	std::swap(this->size, tmp.size);
@@ -107,9 +109,7 @@ string<T>& string<T>::operator+= (const T rhs) {
 		if (new_data == nullptr) {
 			throw "Bad alloc";
 		}
-		else {
-			capacity = new_capacity;
-		}
+		capacity = new_capacity;
 		for (size_t i = 0; i < size; ++i) {
 			new_data[i] = data[i];
 		}
@@ -181,7 +181,7 @@ string<T> string<T>::SubStr(const size_t index, const size_t len) const {
 template <typename T>
 string<T> string<T>::operator() (const size_t start, const size_t stop) const {
 	if (stop == std::string::npos) {
-		return SubStr(start, (*this).size - start);
+		return SubStr(start, this->size - start);
 	}
 	if (stop < start) {
 		throw "Invalid operands operator(). Stop must be >= start";
@@ -210,7 +210,7 @@ bool string<T>::operator== (const string<T>& rhs) const {
 }
 
 template <typename T>
-bool string<T>::operator!= (const string<T>& rhs) {
+bool string<T>::operator!= (const string<T>& rhs) const{
 	return !(*this == rhs);
 }
 
