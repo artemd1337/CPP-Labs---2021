@@ -146,6 +146,14 @@ TEST(Operator, Operator_equals_char) {
 	EXPECT_TRUE(test2 == test3);
 }
 
+TEST(Function, iterators_SubStr_Char) {
+	string<char> test1("test", 4);
+	string<char> test2 = test1.SubStr(test1.begin() + 1, test1.end());
+	string<char> test3("est", 3);
+	EXPECT_EQ(test2, test3);
+	EXPECT_THROW(test1.SubStr(test1.end(), test1.begin()), std::out_of_range);
+}
+
 TEST(Operator, Operator_equals_int) {
 	int vector_int[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 	string<int> test1(vector_int, 4);
@@ -199,6 +207,15 @@ TEST(Operator, Operator_mul_int) {
 	EXPECT_EQ(test1 * 3, 3 * test1);
 }
 
+TEST(Function, iterators_SubStr_Int) {
+	int vector_int[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	string<int> test1(vector_int, 4);
+	string<int> test2 = test1.SubStr(test1.begin(), test1.begin() + 4);
+	string<int> test3(vector_int, 4);
+	EXPECT_EQ(test2, test3);
+	EXPECT_THROW(test1.SubStr(test1.end(), test1.begin()), std::out_of_range);
+}
+
 TEST(Operator, Operator_mul_double) {
 	double vector_double[10] = { 11.28, 13.22, 21.17, 3.14, 4.41, 5.73, 6.90, 7.1, 8.1238812, 9.0 };
 	string<double> test1(vector_double, 3);
@@ -248,4 +265,13 @@ TEST(Function, Substr_double) {
 	EXPECT_EQ(test2_1[1], 13.22);
 	EXPECT_THROW(test2_1[2], std::out_of_range);
 	EXPECT_TRUE(test2_0 == test2_1);
+}
+
+TEST(Function, iterators_SubStr_Double) {
+	double vector_double[10] = { 11.28, 13.22, 21.17, 3.14, 4.41, 5.73, 6.90, 7.1, 8.1238812, 9.0 };
+	string<double> test1(vector_double, 7);
+	string<double> test2 = test1.SubStr(test1.begin(), test1.begin() + 7);
+	string<double> test3(vector_double, 7);
+	EXPECT_EQ(test2, test3);
+	EXPECT_THROW(test1.SubStr(test1.end(), test1.begin()), std::out_of_range);
 }

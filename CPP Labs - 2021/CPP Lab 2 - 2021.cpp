@@ -11,7 +11,7 @@ int main() {
 	a[0] = 'A';
 	std::cout << a << std::endl;
 	string<char> c = a(a.begin() + 2, a.end());
-	string<char> g = a(a.begin() + 4, a.begin() + 2);
+	string<char> g = a(a.begin() + 2, a.begin() + 4);
 	std::cout << g << std::endl;
 	string<char> d = a * 3 + b;
 	string<char> f = 3 * a;
