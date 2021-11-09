@@ -100,6 +100,9 @@ string<T> string<T>::SubStr(const size_t index, const size_t len) const {
 
 template <typename T>
 string<T> string<T>::SubStr(typename std::vector<T>::const_iterator start, typename std::vector<T>::const_iterator stop) const {
+	if (start > stop) {
+		throw std::out_of_range("Start iterator > then stop iterator");
+	}
 	string<T> substr;
 	while (start != stop) {
 		substr += *start;
