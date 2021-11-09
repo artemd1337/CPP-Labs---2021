@@ -1,30 +1,25 @@
 #include <cstdio>
 #include <cstring>
 #include <iostream>
+#include <vector>
 
 template <typename T>
 class string {
 private:
-	T* data;
-	size_t size;
-	size_t capacity;
+	std::vector<T> data;
 
 public:
-	string();
+	string() = default;
 	string(const T* new_data, const size_t new_size);
-	string(const size_t size);
-	string(const string& rhs);
-	~string();
+
+	auto begin() const;
+	auto end() const;
 
 	T operator[](const size_t index) const;
 	T& operator[](const size_t index);
-	const T* GetData() const; 
 
 	size_t GetSize() const;
-	size_t GetCapacity() const;
-
-	string& operator= (const string& rhs);
-
+	const T* GetData() const;
 	string& operator+= (const string& rhs);
 	string& operator+= (const T rhs);
 
@@ -34,7 +29,9 @@ public:
 	string operator* (const int num) const;
 
 	string SubStr(const size_t index, const size_t len) const;
+	string SubStr(typename std::vector<T>::const_iterator start, typename std::vector<T>::const_iterator stop) const;
 	string operator() (const size_t start, const size_t finish = std::string::npos) const; 
+	string operator() (typename std::vector<T>::const_iterator start, typename std::vector<T>::const_iterator stop) const;
 
 	bool operator== (const string& rhs) const;
 	bool operator!= (const string& rhs) const;

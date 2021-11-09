@@ -1,138 +1,52 @@
 #include <cstdio>
-template <typename T>
-string<T>::string() : data(nullptr), size(0), capacity(0) {}
 
 template <typename T>
 string<T>::string(const T* new_data,const size_t new_size) {
-	capacity = 16;
-	size = 0;
-	while (capacity <= new_size) {
-		capacity *= 2;
-	}
-	data = new T[capacity];
-	if (data == nullptr) {
-		throw "Bad alloc";
-	}
 	for (size_t i = 0; i < new_size; ++i) {
-		data[i] = new_data[i];
-	}
-	size = new_size;
-}
-
-template <typename T>
-string<T>::string(const size_t new_size) {
-	data = new T[new_size];
-	if (data == nullptr) {
-		throw "Bad alloc";
-	}
-	capacity = new_size;
-	size = 0;
-}
-
-template <typename T>
-string<T>::string(const string<T>& rhs) {
-	size_t new_size = rhs.size;
-	size_t new_capacity = rhs.capacity;
-	data = new T[new_capacity];
-	if (data == nullptr) {
-		throw "Bad alloc";
-	}
-	capacity = new_capacity;
-	size = new_size;
-	if (size < capacity) {
-		for (size_t i = 0; i < size; ++i) {
-			data[i] = rhs.data[i];
-		}
+		data.push_back(new_data[i]);
 	}
 }
 
 template <typename T>
-string<T>::~string() {
-	if (data != nullptr) {
-		delete[] data;
-	}
+auto string<T>::begin() const {
+	return data.begin();
+}
+
+template <typename T>
+auto string<T>::end() const {
+	return data.end();
 }
 
 template <typename T>
 T string<T>::operator[](const size_t index) const {
-	if (index >= size) {
-		throw ("Invalid index");
-	}
-	else {
-		return data[index];
-	}
+	return data.at(index);
 }
 
 template <typename T>
 T& string<T>::operator[](const size_t index) {
-	if (index >= size) {
-		throw ("Invalid index");
-	}
-	else {
-		return data[index];
-	}
-}
-
-template <typename T>
-const T* string<T>::GetData() const {
-	return data;
+	return data.at(index);
 }
 
 template <typename T>
 size_t string<T>::GetSize() const {
-	return size;
+	return data.size();
 }
 
 template <typename T>
-size_t string<T>::GetCapacity() const {
-	return capacity;
-}
-
-template <typename T>
-string<T>& string<T>::operator=(const string<T>& rhs) {
-	if (this->data == rhs.data) return *this;
-	string<T> tmp(rhs);
-	std::swap(this->data, tmp.data);
-	std::swap(this->size, tmp.size);
-	std::swap(this->capacity, tmp.capacity);
-	return *this;
+const T* string<T>::GetData() const {
+	return data.data();
 }
 
 template <typename T>
 string<T>& string<T>::operator+= (const T rhs) {
-	if (size + 1 >= capacity) {
-		size_t new_capacity = capacity;
-		while (size + 1 >= new_capacity) {
-			new_capacity *= 2;
-		}
-		T* new_data = new T[new_capacity];
-		if (new_data == nullptr) {
-			throw "Bad alloc";
-		}
-		capacity = new_capacity;
-		for (size_t i = 0; i < size; ++i) {
-			new_data[i] = data[i];
-		}
-		new_data[size] = rhs;
-		size++;
-		delete[] data;
-		data = new_data;
-		return *this;
-	}
-	else {
-		data[size] = rhs;
-		size++;
-		return *this;
-	}
+	data.push_back(rhs);
+	return *this;
 }
 
 template <typename T>
 string<T>& string<T>::operator+= (const string<T>& rhs) {
-	if (rhs.data == nullptr) {
-		return *this;
-	}
-	for (size_t i = 0; i < rhs.size; ++i) {
-		*this += rhs.data[i];
+	for (size_t i = 0; i < rhs.GetSize(); ++i) {
+		*this += rhs[i];
 	}
 	return *this;
 }
@@ -146,7 +60,7 @@ string<T> string<T>::operator+ (const string<T>& rhs) const {
 
 template <typename T>
 string<T>& string<T>::operator*= (const int number) {
-	if (data == nullptr) {
+	if (data.empty()) {
 		return *this;
 	}
 	if (number <= 0) {
@@ -161,6 +75,12 @@ string<T>& string<T>::operator*= (const int number) {
 
 template <typename T>
 string<T> string<T>::operator* (const int num) const {
+	if (data.empty()) {
+		return *this;
+	}
+	if (num <= 0) {
+		throw ("Invalid number");
+	}
 	string<T> result(*this);
 	result *= num;
 	return result;
@@ -168,10 +88,10 @@ string<T> string<T>::operator* (const int num) const {
 
 template <typename T>
 string<T> string<T>::SubStr(const size_t index, const size_t len) const { 
-	if (index >= size || index + len > size) {
+	if (index >= data.size() || index + len > data.size()) {
 		throw("Invalid index or len");
 	}
-	string<T> substr(16);
+	string<T> substr;
 	for (size_t i = 0; i < len; ++i) {
 		substr += data[index + i];
 	}
@@ -179,34 +99,41 @@ string<T> string<T>::SubStr(const size_t index, const size_t len) const {
 }
 
 template <typename T>
+string<T> string<T>::SubStr(typename std::vector<T>::const_iterator start, typename std::vector<T>::const_iterator stop) const {
+	string<T> substr;
+	while (start != stop) {
+		substr += *start;
+		start++;
+	}
+	return substr;
+}
+
+template <typename T>
 string<T> string<T>::operator() (const size_t start, const size_t stop) const {
 	if (stop == std::string::npos) {
-		return SubStr(start, this->size - start);
+		return SubStr(start, data.size() - start);
 	}
 	if (stop < start) {
 		throw "Invalid operands operator(). Stop must be >= start";
 	}
-	if (stop > size) {
+	if (stop > data.size()) {
 		throw "Invalid index, stop must be <= size";
 	}
-	if (start > size ) {
+	if (start > data.size()) {
 		throw "Invalid index, stop must be <= size and >= 0";
 	}
 	size_t len = stop - start + 1;
 	return SubStr(start, len);
 }
 
+template<typename T>
+string<T> string<T>::operator() (typename std::vector<T>::const_iterator start, typename std::vector<T>::const_iterator stop) const {
+	return this->SubStr(start, stop);
+}
+
 template <typename T>
 bool string<T>::operator== (const string<T>& rhs) const {
-	if (size != rhs.size) {
-		return false;
-	}
-	for (size_t i = 0; i < size; ++i) {
-		if (data[i] != rhs.data[i]) {
-			return false;
-		}
-	}
-	return true;
+	return data == rhs.data;
 }
 
 template <typename T>
@@ -215,9 +142,9 @@ bool string<T>::operator!= (const string<T>& rhs) const{
 }
 
 template <typename T>
-std::ostream& operator<< (std::ostream& out, const string<T>& str){
-	for (size_t i = 0; i < str.GetSize(); ++i) {
-		out << str[i];
+std::ostream& operator<< (std::ostream& out, const string<T>& string){
+	for (size_t i = 0; i < string.GetSize(); ++i) {
+		out << string[i];
 	}
 	return out;
 }

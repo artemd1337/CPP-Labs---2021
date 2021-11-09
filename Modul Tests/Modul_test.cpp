@@ -6,7 +6,6 @@ TEST(Constructor, DefaultConstructor) {
 	string<char> test;
 	EXPECT_EQ(test.GetData(), nullptr);
 	EXPECT_EQ(test.GetSize(), 0);
-	EXPECT_EQ(test.GetCapacity(), 0);
 }
 
 
@@ -14,15 +13,13 @@ TEST(Constructor, CopyConstructor) {
 	string<char> test("test", 4);
 	string<char> test1(test);
 	EXPECT_EQ(test.GetSize(), test1.GetSize());
-	EXPECT_EQ(strcmp(test.GetData(), test1.GetData()), 0);
 }
 
 TEST(Operator, AssignmentOperatorChar) {
 	string<char>  test1("test123", 7);
-	string<char> test2(16);
+	string<char> test2;
 	test2 = test1;
 	EXPECT_EQ(test1.GetSize(), test2.GetSize());
-	EXPECT_TRUE(strcmp(test1.GetData(), test2.GetData()) == 0);
 	auto data = test1.GetData();
 	test1 = test1;
 	EXPECT_EQ(test1.GetData(), data);
@@ -31,7 +28,7 @@ TEST(Operator, AssignmentOperatorChar) {
 TEST(Operator, AssignmentOperatorInt) {
 	int vector_int[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 	string<int> test_int1(vector_int, 10);
-	string<int> test_int2(10);
+	string<int> test_int2;
 	test_int2 = test_int1;
 	EXPECT_EQ(test_int1.GetSize(), test_int2.GetSize());
 	for (size_t i = 0; i < 10; ++i) {
@@ -46,7 +43,7 @@ TEST(Operator, AssignmentOperatorInt) {
 TEST(Operator, AssignmentOperatorDouble) {
 	double vector_double[10] = { 11.28, 13.22, 21.17, 3.14, 4.41, 5.73, 6.90, 7.1, 8.1238812, 9.0 };
 	string<double> test_double(vector_double, 10);
-	string<double> test_double2(10);
+	string<double> test_double2;
 	test_double2 = test_double;
 	EXPECT_EQ(test_double.GetSize(), test_double2.GetSize());
 	for (size_t i = 0; i < 10; ++i) {
@@ -62,36 +59,36 @@ TEST(Operator, Operator_index_const) {
 	const string<char> test_char("test", 4);
 	EXPECT_EQ(test_char[0], 't');
 	EXPECT_EQ(test_char[2], 's');
-	EXPECT_THROW(test_char[15], const char*);
+	EXPECT_THROW(test_char[15], std::out_of_range);
 	int vector_int[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 	const string<int> test_int(vector_int, 6);
 	EXPECT_EQ(test_int[2], 2);
 	EXPECT_EQ(test_int[5], 5);
-	EXPECT_THROW(test_int[15], const char*);
+	EXPECT_THROW(test_int[15], std::out_of_range);
 	double vector_double[10] = { 11.28, 13.22, 21.17, 3.14, 4.41, 5.73, 6.90, 7.1, 8.1238812, 9.0 };
 	const string<double> test_double(vector_double , 10);
 	EXPECT_EQ(test_double[8], 8.1238812);
 	EXPECT_EQ(test_double[3], 3.14);
-	EXPECT_THROW(test_double[15], const char*);
+	EXPECT_THROW(test_double[15], std::out_of_range);
 }
 
 TEST(Operator, Operator_index) {
 	string<char> test_char("test", 4);
 	test_char[0] = 'n';
 	EXPECT_EQ(test_char[0], 'n');
-	EXPECT_THROW(test_char[15], const char*);
+	EXPECT_THROW(test_char[15], std::out_of_range);
 	
 	int vector_int[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 	string<int> test_int(vector_int, 8);
 	test_int[0] = 221;
 	EXPECT_EQ(test_int[0], 221);
-	EXPECT_THROW(test_int[15], const char*);
+	EXPECT_THROW(test_int[15], std::out_of_range);
 	
 	double vector_double[10] = { 11.28, 13.22, 21.17, 3.14, 4.41, 5.73, 6.90, 7.1, 8.1238812, 9.0 };
 	string<double> test_double(vector_double, 10);
 	test_double[2] = 13.11;
 	EXPECT_EQ(test_double [2] , 13.11);
-	EXPECT_THROW(test_double [15] , const char*);
+	EXPECT_THROW(test_double [15] , std::out_of_range);
 
 }
 
@@ -181,7 +178,7 @@ TEST(Operator, Operator_mul_char) {
 	EXPECT_EQ(test3[3], 'b');
 	EXPECT_EQ(test3[4], 'a');
 	EXPECT_EQ(test3[5], 'b');
-	EXPECT_THROW(test2[6], const char*);
+	EXPECT_THROW(test2[6], std::out_of_range);
 	EXPECT_EQ(test1 * 3, 3 * test1);
 }
 
@@ -198,7 +195,7 @@ TEST(Operator, Operator_mul_int) {
 	EXPECT_EQ(test3[4], 1);
 	EXPECT_EQ(test3[5], 2);
 	EXPECT_EQ(test3[6], 0);
-	EXPECT_THROW(test2[10], const char*);
+	EXPECT_THROW(test2[10], std::out_of_range);
 	EXPECT_EQ(test1 * 3, 3 * test1);
 }
 
@@ -215,7 +212,7 @@ TEST(Operator, Operator_mul_double) {
 	EXPECT_EQ(test3[4], 13.22);
 	EXPECT_EQ(test3[5], 21.17);
 	EXPECT_EQ(test3[6], 11.28);
-	EXPECT_THROW(test2[10], const char*);
+	EXPECT_THROW(test2[10], std::out_of_range);
 	EXPECT_EQ(test1 * 3, 3 * test1);
 }
 
@@ -225,7 +222,7 @@ TEST(Function, Substr_char) {
 	string<char> test2_1("te", 2);
 	EXPECT_EQ(test2_1[0], 't');
 	EXPECT_EQ(test2_1[1], 'e');
-	EXPECT_THROW(test2_1[2], const char*);
+	EXPECT_THROW(test2_1[2], std::out_of_range);
 	EXPECT_TRUE(test2_0 == test2_1);
 }
 
@@ -237,7 +234,7 @@ TEST(Function, Substr_int) {
 	string<int> test2_1(vector_test, 2);
 	EXPECT_EQ(test2_1[0], 0);
 	EXPECT_EQ(test2_1[1], 1);
-	EXPECT_THROW(test2_1[2], const char*);
+	EXPECT_THROW(test2_1[2], std::out_of_range);
 	EXPECT_TRUE(test2_0 == test2_1);
 }
 
@@ -249,6 +246,6 @@ TEST(Function, Substr_double) {
 	string<double> test2_1(vector_test, 2);
 	EXPECT_EQ(test2_1[0], 11.28);
 	EXPECT_EQ(test2_1[1], 13.22);
-	EXPECT_THROW(test2_1[2], const char*);
+	EXPECT_THROW(test2_1[2], std::out_of_range);
 	EXPECT_TRUE(test2_0 == test2_1);
 }
