@@ -3,7 +3,7 @@
 
 
 int main() {
-	/*string<char> a("artem ", 6);
+	string<char> a("artem ", 6);
 	string<char> b("danilov" , 7);
 	a = b;
 	std::cout << a << std::endl << b << std::endl;
@@ -20,11 +20,7 @@ int main() {
 	
 	int vector[10] = { 0,1,2,3,4,5,6,7,8,9 };
 	string<int> a_i(vector, 7);
-	std::cout << a_i << std::endl;*/
-	string<char>  test1("test123", 7);
-	string<char> test2;
-	test2 = test1;
-	std::cout << strcmp(test1.GetData(), test2.GetData()) << std::endl;
-	std::cout << test1.GetData() << std::endl << test2.GetData() << std::endl;
-	auto data = test1.GetData();
+	for (int elem : a_i) {
+		std::cout << elem;
+	}
 }
