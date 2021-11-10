@@ -146,8 +146,10 @@ bool string<T>::operator!= (const string<T>& rhs) const{
 
 template <typename T>
 std::ostream& operator<< (std::ostream& out, const string<T>& string){
-	for (size_t i = 0; i < string.GetSize(); ++i) {
-		out << string[i];
+	auto iter = string.begin();
+	while (iter != string.end()) {
+		out << *iter;
+		iter++;
 	}
 	return out;
 }
